@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+
+<div layout:fragment="content" class="container" th:object="${workLog}">
+
+    <input type="hidden" id="log-id" th:value="*{id}">
+
+    <h2 class="border-bottom py-2 ">Work Log</h2>
+    <label th:for="log" class="form-label"> 로그 입력 창 </label>
+    <textarea rows="10" placeholder="input your work log" class="form-control" id="log" name="log" th:text="*{log}">
+
+    </textarea>
+
+    <button th:if="${workLog.getId()}!=null" type="button" id="modify-btn" class="btn btn-primary  my-3">수정</button>
+    <button th:if="${workLog.getId()}==null" type="button" id="create-btn" class="btn btn-primary  my-3">저장</button>
+
+    <script src="/worklog.js"></script>
+</div>
+
+</html>
