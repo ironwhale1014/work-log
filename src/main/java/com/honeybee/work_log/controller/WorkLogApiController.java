@@ -6,9 +6,12 @@ import com.honeybee.work_log.dto.SaveWorkLogRequest;
 import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.dto.WorkLogResponse;
 import com.honeybee.work_log.service.WorkLogService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,8 +32,7 @@ public class WorkLogApiController {
     }
 
     @PostMapping("/logs")
-    public ResponseEntity<WorkLog> saveWorkLog(@RequestBody SaveWorkLogRequest request) {
-
+    public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request) {
         System.out.println("request = " + request.getLog());
         WorkLog workLog = WorkLog.builder().tags(request.getTags())
                 .log(request.getLog())
