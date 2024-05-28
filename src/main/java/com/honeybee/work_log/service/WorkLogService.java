@@ -4,8 +4,13 @@ package com.honeybee.work_log.service;
 import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.domain.WorkLog;
 import com.honeybee.work_log.repository.WorkLogRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +32,10 @@ public class WorkLogService {
         return workLog.orElseThrow(() -> new IllegalArgumentException("not found" + id));
     }
 
+    public List<WorkLog> findByKeyword(String keyword) {
+        return workLogRepo.findAllByKeyword(keyword);
+    }
+
     public List<WorkLog> findAll() {
         return workLogRepo.findAll();
     }
@@ -43,5 +52,6 @@ public class WorkLogService {
     public void deleteWorkLog(Long id) {
         workLogRepo.deleteById(id);
     }
+
 
 }

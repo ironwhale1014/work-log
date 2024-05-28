@@ -8,6 +8,7 @@ import com.honeybee.work_log.dto.WorkLogResponse;
 import com.honeybee.work_log.service.WorkLogService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.valves.rewrite.InternalRewriteMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @RequestMapping("/api")
@@ -26,10 +31,35 @@ public class WorkLogApiController {
     private final WorkLogService workLogService;
 
     @GetMapping("/logs")
-    public ResponseEntity<List<WorkLogResponse>> findAllLogs() {
-        List<WorkLogResponse> workLogs = workLogService.findAll().stream().map(WorkLogResponse::new).toList();
-        return ResponseEntity.ok().body(workLogs);
+    public ResponseEntity<List<WorkLogResponse>> findAllLogs(@RequestParam(required = false) String keyword) {
+        System.out.println("keyword = " + keyword);
+
+        if (keyword != null) {
+            // 대소문자 구분 없이 검색 결과를 합치기 위해 Set 사용
+            Set<WorkLogResponse> workLogs = new HashSet<>();
+
+            workLogs.addAll(
+                    workLogService.findByKeyword(keyword).stream()
+                            .map(WorkLogResponse::new)
+                            .toList()
+            );
+
+            workLogs.addAll(
+                    workLogService.findByKeyword(keyword.toUpperCase()).stream()
+                            .map(WorkLogResponse::new)
+                            .toList()
+            );
+
+            System.out.println("workLogs = " + workLogs);
+            return ResponseEntity.ok().body(new ArrayList<>(workLogs));
+        } else {
+            List<WorkLogResponse> workLogs = workLogService.findAll().stream()
+                    .map(WorkLogResponse::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok().body(workLogs);
+        }
     }
+
 
     @PostMapping("/logs")
     public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request) {
