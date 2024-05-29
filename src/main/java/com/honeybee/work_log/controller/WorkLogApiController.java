@@ -6,16 +6,12 @@ import com.honeybee.work_log.dto.SaveWorkLogRequest;
 import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.dto.WorkLogResponse;
 import com.honeybee.work_log.service.WorkLogService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.valves.rewrite.InternalRewriteMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

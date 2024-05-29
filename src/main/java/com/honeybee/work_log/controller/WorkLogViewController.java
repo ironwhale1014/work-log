@@ -21,7 +21,7 @@ import java.util.List;
 public class WorkLogViewController {
     final private WorkLogService workLogService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public String getWorkLog(Model model) {
         List<WorkLogsViewResponse> workLogs = workLogService.findAll().stream().map(WorkLogsViewResponse::new).toList();
         model.addAttribute("workLogs", workLogs.reversed());
