@@ -20,13 +20,10 @@
 
     </div>
 
-    <div class="card  my-3" th:each="worklog, loop: ${workLogs}">
+    <div class="card my-3" th:each="worklog, loop: ${workLogs}">
         <div class="card-body">
-
             <div class="card-text " style="white-space: pre-line" th:text="${worklog.getLog()}"></div>
-
             <div class="col">
-                <div class="row"></div>
                 <div class="row">
                     <div th:if="${worklog.getUpdateAt()!=null}" class="d-flex justify-content-end">
                         <div class="badge bg-light text-dark">
@@ -36,27 +33,33 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col"></div>
-                    <div  class="col-1">
-                        <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-end">
+                        <div class="me-3">
+                            <button class="btn btn-sm btn-outline-secondary " name="delete-btn"
+                                    th:value="${worklog.getId()}">삭제
+                            </button>
+                        </div>
+                        <div class="">
                             <a class="btn btn-sm btn-outline-secondary"
                                th:href="@{|/worklog/create?id=${worklog.getId()}|}"
                                th:value="${worklog.getId()}">수정</a>
                         </div>
                     </div>
-                    <div  class="col-1">
-                        <div class="d-flex justify-content-start">
-                            <button class="btn btn-sm btn-outline-secondary " name="delete-btn" th:value="${worklog.getId()}">삭제</button>
-                        </div>
-                    </div>
+
 
                 </div>
-
             </div>
-            <span th:if="${worklog.getTags() != null }">Tags</span>
-            <th:block th:each="tag : ${worklog.getTags()}">
-                <span class="badge rounded-pill text-bg-info" th:text="|${tag}|"></span>
-            </th:block>
+            <div class="row">
+                <div class="col">
+                    <span th:if="${worklog.getTags() != null }">Tags</span>
+                    <th:block th:each="tag : ${worklog.getTags()}">
+                        <span class="badge rounded-pill text-bg-info" th:text="|${tag}|"></span>
+                    </th:block>
+                </div>
+                <div class="col text-end" th:text="|작성자: ${worklog.getUserName()}|">
+                <div class="col text-end" th:text="|작성자: ${worklog.getUserName()}|">
+                </div>
+            </div>
 
         </div>
     </div>

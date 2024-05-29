@@ -9,9 +9,11 @@ import com.honeybee.work_log.service.WorkLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -57,12 +59,15 @@ public class WorkLogApiController {
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/logs")
-    public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request) {
+    public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request, Principal principal) {
         System.out.println("request = " + request.getLog());
+        System.out.println("principal.getName() = " + principal.getName());
+        System.out.println("principal = " + principal);
         WorkLog workLog = WorkLog.builder().tags(request.getTags())
                 .log(request.getLog())
-                .userName(request.getUserName()).build();
+                .userName(principal.getName()).build();
         workLogService.saveLog(workLog);
         return ResponseEntity.status(HttpStatus.CREATED).body(workLog);
     }
