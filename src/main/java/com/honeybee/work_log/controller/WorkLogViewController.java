@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,8 +27,9 @@ public class WorkLogViewController {
     final private WorkLogService workLogService;
 
     @GetMapping("")
-    public String getWorkLog(Model model) {
-        List<WorkLogsViewResponse> workLogs = new java.util.ArrayList<>(workLogService.findAll().stream().map(WorkLogsViewResponse::new).toList());
+    public String getWorkLog(Model model, Principal principal) {
+        System.out.println("principal = " + principal.getName());
+        List<WorkLogsViewResponse> workLogs = new java.util.ArrayList<>(workLogService.findAll(principal.getName()).stream().map(WorkLogsViewResponse::new).toList());
 
         workLogs.sort(new WorkLogsViewResponseComparator());
 

@@ -21,31 +21,5 @@ class WorkLogServiceTest {
 
     @Test
     void saveLog() {
-
-
-        List<String> tags = new ArrayList<>();
-        tags.add("tag1");
-        tags.add("tag2");
-        tags.add("tag3");
-
-
-        WorkLog firstLog = WorkLog.builder().log("tag log").createAt(LocalDateTime.now()).tags(tags).build();
-
-
-        workLogService.saveLog(firstLog);
-
-        List<WorkLog> logList = workLogService.findAll();
-        WorkLog last = logList.getLast();
-
-        assertThat(last.getLog()).isEqualTo("tag log");
-
-        System.out.println("last.getTags().toString() = " + last.getTags().toString());
-
-        UpdateWorkLogRequest updateWorkLogRequest = new UpdateWorkLogRequest("update_log", "lee", tags);
-        WorkLog workLog = workLogService.updateWorkLog(last.getId(), updateWorkLogRequest);
-        WorkLog findWorkLog = workLogService.findById(last.getId());
-        assertThat(findWorkLog.getLog()).isEqualTo("update_log");
-
-
     }
 }

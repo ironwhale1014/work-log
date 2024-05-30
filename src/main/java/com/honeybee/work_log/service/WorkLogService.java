@@ -36,8 +36,8 @@ public class WorkLogService {
         return workLogRepo.findAllByKeyword(keyword);
     }
 
-    public List<WorkLog> findAll() {
-        return workLogRepo.findAll();
+    public List<WorkLog> findAll(String userName) {
+        return workLogRepo.findByUserName(userName);
     }
 
     @Transactional

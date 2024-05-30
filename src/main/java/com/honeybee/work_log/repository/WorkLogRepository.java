@@ -18,4 +18,6 @@ public interface WorkLogRepository extends JpaRepository<WorkLog, Long> {
                     "where w.log like %:kw%"
     )
     List<WorkLog> findAllByKeyword(@Param("kw") String kw);
+
+    List<WorkLog> findByUserName(String email);
 }
