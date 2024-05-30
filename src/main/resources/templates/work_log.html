@@ -6,7 +6,11 @@
 
 
 <div layout:fragment="content" class="container my-3">
-    <h2 class="border-bottom py-2 ">Work Log</h2>
+    <div class="row border-bottom py-2">
+        <div class="col">
+            <h2>Work Log</h2>
+        </div>
+    </div>
 
     <div class="row my-3">
         <div class="col">
@@ -14,15 +18,17 @@
                 로그 등록 하기
             </a>
         </div>
-        <div class="col">
-
+        <div class="col ">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" onclick="location.href='/logout'">로그아웃</button>
+            </div>
         </div>
-
     </div>
 
     <div class="card my-3" th:each="worklog, loop: ${workLogs}">
         <div class="card-body">
-            <div class="card-text " style="white-space: pre-line" th:text="${worklog.getLog()}"></div>
+            <div class="card-text " style="white-space: pre-line"
+                 th:text="|${worklog.getId()} ${worklog.getLog()}|"></div>
             <div class="col">
                 <div class="row">
                     <div th:if="${worklog.getUpdateAt()!=null}" class="d-flex justify-content-end">
@@ -57,12 +63,15 @@
                     </th:block>
                 </div>
                 <div class="col text-end" th:text="|작성자: ${worklog.getUserName()}|">
-                <div class="col text-end" th:text="|작성자: ${worklog.getUserName()}|">
+                    <div class="col text-end" th:text="|작성자: ${worklog.getUserName()}|">
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
     <script src="/js/worklog.js"></script>
 </div>
+
 </html>

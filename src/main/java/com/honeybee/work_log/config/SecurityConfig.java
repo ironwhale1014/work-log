@@ -28,7 +28,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer configure() {
-        System.out.println("PathRequest.toStaticResources().atCommonLocations() = " + PathRequest.toStaticResources().atCommonLocations());
+
         return (web) -> web.ignoring()
                 .requestMatchers( "/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**");
     }
@@ -47,7 +47,7 @@ public class SecurityConfig {
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .defaultSuccessUrl("/worklog")
+                        .defaultSuccessUrl("/worklog",true)
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")

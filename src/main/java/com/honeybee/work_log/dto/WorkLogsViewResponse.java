@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class WorkLogsViewResponse implements Serializable {
+public class WorkLogsViewResponse implements Serializable{
     @NotEmpty(message = "내용은 필수 입니다.")
     String log;
     String userName;
@@ -33,5 +33,6 @@ public class WorkLogsViewResponse implements Serializable {
         this.tags = workLog.getTags();
         this.id = workLog.getId();
     }
+
 
 }

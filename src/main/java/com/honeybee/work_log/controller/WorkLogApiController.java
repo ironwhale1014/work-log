@@ -30,8 +30,6 @@ public class WorkLogApiController {
 
     @GetMapping("/logs")
     public ResponseEntity<List<WorkLogResponse>> findAllLogs(@RequestParam(required = false) String keyword) {
-        System.out.println("keyword = " + keyword);
-
         if (keyword != null) {
             // 대소문자 구분 없이 검색 결과를 합치기 위해 Set 사용
             Set<WorkLogResponse> workLogs = new HashSet<>();
@@ -47,8 +45,6 @@ public class WorkLogApiController {
                             .map(WorkLogResponse::new)
                             .toList()
             );
-
-            System.out.println("workLogs = " + workLogs);
             return ResponseEntity.ok().body(new ArrayList<>(workLogs));
         } else {
             List<WorkLogResponse> workLogs = workLogService.findAll().stream()
@@ -85,6 +81,7 @@ public class WorkLogApiController {
         workLogService.deleteWorkLog(id);
         return ResponseEntity.ok().build();
     }
+
 
 
 }

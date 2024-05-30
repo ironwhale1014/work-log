@@ -31,7 +31,7 @@ class WorkLogServiceTest {
 
         WorkLog firstLog = WorkLog.builder().log("tag log").createAt(LocalDateTime.now()).tags(tags).build();
 
-        System.out.println("workLog = " + firstLog.getLog());
+
         workLogService.saveLog(firstLog);
 
         List<WorkLog> logList = workLogService.findAll();
