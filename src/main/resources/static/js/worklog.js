@@ -44,15 +44,19 @@ const modifyButton = document.getElementById("modify-btn");
 if (modifyButton) {
     modifyButton.addEventListener("click", (e) => {
         let id = document.getElementById("log-id").value;
-        console.log("testid" + id);
-        console.log(`/api/logs/${id}`);
+        let tagValue = document.getElementById("tag").value;
+
+        const tagsArray = Array.from(new Set(tagValue.split(",").map(e => e.trim()).filter(e => e)));
+
+
         fetch(`/api/logs/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                log: document.getElementById("log").value
+                log: document.getElementById("log").value,
+                tags: tagsArray
 
             })
         }).then(() => {

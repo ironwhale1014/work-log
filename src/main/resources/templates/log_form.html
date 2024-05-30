@@ -15,8 +15,9 @@
 
     </textarea>
     <label for="tag" class="form-label">태그 입력창 / 태그는 쉽표로 구분합니다.</label>
-    <input type="text" id="tag" name="tag"  class="form-control" placeholder="태그는 쉽표로 구분합니다.">
-
+    <textarea class="form-control" id="tag" name="tag" placeholder="태그는 쉽표로 구분합니다." rows="1"
+              th:text="${tagToString}">
+    </textarea>
     <button th:if="${workLog.getId()}!=null" type="button" id="modify-btn" class="btn btn-primary  my-3">수정</button>
     <button th:if="${workLog.getId()}==null" type="button" id="create-btn" class="btn btn-primary  my-3">저장</button>
 

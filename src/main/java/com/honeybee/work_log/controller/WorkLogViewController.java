@@ -43,6 +43,11 @@ public class WorkLogViewController {
         } else {
             WorkLog byId = workLogService.findById(id);
             model.addAttribute("workLog", new WorkLogsViewResponse(byId));
+            if (byId.getTags() != null) {
+                model.addAttribute("tagToString", String.join(",", byId.getTags()));
+
+            }
+
         }
 
         return "log_form";

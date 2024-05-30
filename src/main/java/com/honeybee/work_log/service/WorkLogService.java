@@ -44,7 +44,7 @@ public class WorkLogService {
     public WorkLog updateWorkLog(Long id, UpdateWorkLogRequest request) {
         WorkLog workLog = workLogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("not found" + id));
 
-        workLog.update(request.getLog(), request.getUserName(), request.getTags());
+        workLog.update(request.getLog(), request.getTags());
 
         return workLog;
     }

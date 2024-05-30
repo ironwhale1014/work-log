@@ -28,7 +28,7 @@
     <div class="card my-3" th:each="worklog, loop: ${workLogs}">
         <div class="card-body">
             <div class="card-text " style="white-space: pre-line"
-                 th:text="|${worklog.getId()} ${worklog.getLog()}|"></div>
+                 th:text="|${worklog.getLog()}|"></div>
             <div class="col">
                 <div class="row">
                     <div th:if="${worklog.getUpdateAt()!=null}" class="d-flex justify-content-end">

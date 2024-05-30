@@ -55,7 +55,6 @@ public class WorkLogApiController {
     }
 
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/logs")
     public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request, Principal principal) {
         System.out.println("request = " + request.getLog());

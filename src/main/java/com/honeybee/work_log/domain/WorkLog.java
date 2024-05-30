@@ -48,9 +48,8 @@ public class WorkLog {
         this.tags = tags;
     }
 
-    public void update(String log, String userName, List<String> tags) {
+    public void update(String log,List<String> tags) {
         this.log = log;
-        this.userName = userName;
         this.tags = tags;
     }
 

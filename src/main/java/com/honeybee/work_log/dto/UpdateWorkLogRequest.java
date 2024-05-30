@@ -12,6 +12,5 @@ import java.util.List;
 @Value
 public class UpdateWorkLogRequest implements Serializable {
     String log;
-    String userName;
     List<String> tags;
 }
