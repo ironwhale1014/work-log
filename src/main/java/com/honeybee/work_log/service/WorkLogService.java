@@ -41,9 +41,12 @@ public class WorkLogService {
     }
 
     @Transactional
-    public WorkLog updateWorkLog(Long id, UpdateWorkLogRequest request) {
+    public WorkLog updateWorkLog(Long id, UpdateWorkLogRequest request,String userName) {
         WorkLog workLog = workLogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("not found" + id));
 
+        if(!workLog.getUserName().equals(userName)) {
+            throw new SecurityException("You are not allowed to update this log");
+        }
         workLog.update(request.getLog(), request.getTags());
 
         return workLog;

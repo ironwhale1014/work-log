@@ -28,8 +28,9 @@ public class WorkLogApiController {
 
     private final WorkLogService workLogService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/logs")
-    public ResponseEntity<List<WorkLogResponse>> findAllLogs(@RequestParam(required = false) String keyword,Principal principal) {
+    public ResponseEntity<List<WorkLogResponse>> findAllLogs(@RequestParam(required = false) String keyword, Principal principal) {
 
         System.out.println("principal.getName() = " + principal.getName());
         if (keyword != null) {
@@ -56,12 +57,10 @@ public class WorkLogApiController {
         }
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/logs")
     public ResponseEntity<WorkLog> saveWorkLog(@Validated @RequestBody SaveWorkLogRequest request, Principal principal) {
-        System.out.println("request = " + request.getLog());
-        System.out.println("principal.getName() = " + principal.getName());
-        System.out.println("principal = " + principal);
+
         WorkLog workLog = WorkLog.builder().tags(request.getTags())
                 .log(request.getLog())
                 .userName(principal.getName()).build();
@@ -69,20 +68,33 @@ public class WorkLogApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(workLog);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/logs/{id}")
-    public ResponseEntity<WorkLog> updateWorkLog(@PathVariable Long id, @RequestBody UpdateWorkLogRequest request) {
-        System.out.println("request = " + request.getLog());
-        WorkLog workLog = workLogService.updateWorkLog(id, request);
+    public ResponseEntity<WorkLog> updateWorkLog(@PathVariable Long id, @RequestBody UpdateWorkLogRequest request, Principal principal) {
+        System.out.println("update principal = " + principal.getName());
 
-        return ResponseEntity.ok().body(workLog);
+        if (principal.getName() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            WorkLog workLog = workLogService.updateWorkLog(id, request, principal.getName());
+            return ResponseEntity.ok().body(workLog);
+        } catch (SecurityException e) {
+            System.out.println("e = " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/logs/{id}")
     public ResponseEntity<Void> deleteWorkLog(@PathVariable Long id) {
         workLogService.deleteWorkLog(id);
         return ResponseEntity.ok().build();
     }
-
 
 
 }
