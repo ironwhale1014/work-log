@@ -1,19 +1,13 @@
 package com.honeybee.work_log.service;
 
 
-import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.domain.WorkLog;
+import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.repository.WorkLogRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +26,8 @@ public class WorkLogService {
         return workLog.orElseThrow(() -> new IllegalArgumentException("not found" + id));
     }
 
-    public List<WorkLog> findByKeyword(String keyword) {
-        return workLogRepo.findAllByKeyword(keyword);
+    public List<WorkLog> findByKeyword(String keyword,String userName) {
+        return workLogRepo.findAllByKeyword(keyword,userName);
     }
 
     public List<WorkLog> findAll(String userName) {

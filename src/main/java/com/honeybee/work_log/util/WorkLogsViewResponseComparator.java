@@ -8,13 +8,11 @@ public class WorkLogsViewResponseComparator implements Comparator<WorkLogsViewRe
     @Override
     public int compare(WorkLogsViewResponse o1, WorkLogsViewResponse o2) {
 
-        if(o1.getId()<o2.getId()){
+        if (o1.getId() < o2.getId()) {
             return 1;
-        }else if(o1.getId()>o2.getId()){
+        } else if (o1.getId() > o2.getId()) {
             return -1;
         }
         return 0;
     }
-
-
 }

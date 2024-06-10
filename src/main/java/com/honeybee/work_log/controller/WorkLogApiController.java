@@ -38,13 +38,13 @@ public class WorkLogApiController {
             Set<WorkLogResponse> workLogs = new HashSet<>();
 
             workLogs.addAll(
-                    workLogService.findByKeyword(keyword).stream()
+                    workLogService.findByKeyword(keyword, principal.getName()).stream()
                             .map(WorkLogResponse::new)
                             .toList()
             );
 
             workLogs.addAll(
-                    workLogService.findByKeyword(keyword.toUpperCase()).stream()
+                    workLogService.findByKeyword(keyword.toUpperCase(), principal.getName()).stream()
                             .map(WorkLogResponse::new)
                             .toList()
             );
@@ -89,7 +89,6 @@ public class WorkLogApiController {
 
     }
 
-    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/logs/{id}")
     public ResponseEntity<Void> deleteWorkLog(@PathVariable Long id) {
         workLogService.deleteWorkLog(id);
