@@ -6,7 +6,6 @@ import com.honeybee.work_log.dto.AddUserRequest;
 import com.honeybee.work_log.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -21,6 +20,10 @@ public class UserService {
         userRepository.save(SiteUser.builder()
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .email(dto.getEmail()).username(dto.getUsername()).build());
+    }
+
+    public SiteUser findById(Long id) {
+        return userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Unexpected user"));
     }
 
 }
