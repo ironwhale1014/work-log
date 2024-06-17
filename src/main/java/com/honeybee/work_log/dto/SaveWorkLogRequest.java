@@ -1,5 +1,6 @@
 package com.honeybee.work_log.dto;
 
+import com.honeybee.work_log.domain.WorkLog;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Value;
 
@@ -15,4 +16,13 @@ public class SaveWorkLogRequest implements Serializable {
     String log;
     String userName;
     List<String> tags;
+
+
+    public WorkLog toEntity(String userName) {
+        return WorkLog.builder()
+                .userName(userName)
+                .log(log)
+                .tags(tags)
+                .build();
+    }
 }

@@ -15,15 +15,21 @@ import java.util.List;
 @Getter
 @Entity
 public class SiteUser implements UserDetails {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     private String password;
     private String email;
     private String username;
+
+
+    public SiteUser update(String username) {
+        this.username = username;
+        return this;
+    }
+
 
     @Builder
     public SiteUser(String password, String email, String username) {

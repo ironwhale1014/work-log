@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.List;
@@ -23,10 +24,24 @@ import java.util.List;
 public class WorkLogViewController {
     final private WorkLogService workLogService;
 
+    final private RestTemplate restTemplate;
+
+
     @GetMapping("")
-    public String getWorkLog(Model model, Principal principal) {
-        System.out.println("principal = " + principal.getName());
-        List<WorkLogsViewResponse> workLogs = new java.util.ArrayList<>(workLogService.findAll(principal.getName()).stream().map(WorkLogsViewResponse::new).toList());
+    public String getWorkLog(Model model, Principal principal, @RequestParam(required = false) String token) {
+
+        if(token != null) {
+
+        }
+
+
+        String username = "test";
+        if (principal != null) {
+            username = principal.getName();
+            System.out.println("username = " + username);
+        }
+
+        List<WorkLogsViewResponse> workLogs = new java.util.ArrayList<>(workLogService.findAll(username).stream().map(WorkLogsViewResponse::new).toList());
 
         workLogs.sort(new WorkLogsViewResponseComparator());
 

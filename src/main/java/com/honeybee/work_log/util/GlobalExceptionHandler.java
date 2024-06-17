@@ -1,4 +1,4 @@
-package com.honeybee.work_log.controller;
+package com.honeybee.work_log.util;
 
 
 import org.springframework.http.HttpStatus;

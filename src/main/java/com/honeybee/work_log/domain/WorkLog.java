@@ -39,10 +39,8 @@ public class WorkLog {
     private List<String> tags;
 
     @Builder
-    public WorkLog(String log, String userName, List<String> tags, LocalDateTime createAt, LocalDateTime updateAt) {
+    public WorkLog(String log, String userName, List<String> tags) {
         this.log = log;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
         this.userName = userName;
         this.tags = tags;
     }

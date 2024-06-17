@@ -2,10 +2,12 @@ package com.honeybee.work_log.service;
 
 
 import com.honeybee.work_log.domain.WorkLog;
+import com.honeybee.work_log.dto.SaveWorkLogRequest;
 import com.honeybee.work_log.dto.UpdateWorkLogRequest;
 import com.honeybee.work_log.repository.WorkLogRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,9 @@ public class WorkLogService {
 
     private final WorkLogRepository workLogRepo;
 
-    public WorkLog saveLog(WorkLog workLog) {
-        return workLogRepo.save(workLog);
+    public WorkLog saveLog(SaveWorkLogRequest req, String userName) {
+
+        return workLogRepo.save(req.toEntity(userName));
     }
 
     public WorkLog findById(Long id) {
@@ -26,8 +29,8 @@ public class WorkLogService {
         return workLog.orElseThrow(() -> new IllegalArgumentException("not found" + id));
     }
 
-    public List<WorkLog> findByKeyword(String keyword,String userName) {
-        return workLogRepo.findAllByKeyword(keyword,userName);
+    public List<WorkLog> findByKeyword(String keyword, String userName) {
+        return workLogRepo.findAllByKeyword(keyword, userName);
     }
 
     public List<WorkLog> findAll(String userName) {
@@ -35,20 +38,33 @@ public class WorkLogService {
     }
 
     @Transactional
-    public WorkLog updateWorkLog(Long id, UpdateWorkLogRequest request,String userName) {
+    public WorkLog updateWorkLog(Long id, UpdateWorkLogRequest request) {
         WorkLog workLog = workLogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("not found" + id));
 
-        if(!workLog.getUserName().equals(userName)) {
-            throw new SecurityException("You are not allowed to update this log");
-        }
+
+        authorizeWorkLogAuthor(workLog);
+
         workLog.update(request.getLog(), request.getTags());
 
         return workLog;
     }
 
     public void deleteWorkLog(Long id) {
+        WorkLog workLog = workLogRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("not found" + id));
+
+
+        authorizeWorkLogAuthor(workLog);
         workLogRepo.deleteById(id);
     }
+
+
+    private static void authorizeWorkLogAuthor(WorkLog workLog) {
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!workLog.getUserName().equals(userName)) {
+            throw new SecurityException("You are not allowed to update this log");
+        }
+    }
+
 
 
 }
